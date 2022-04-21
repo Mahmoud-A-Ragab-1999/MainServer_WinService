@@ -183,7 +183,8 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OcuuranceInterval))
+                                    //if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OcuuranceInterval))
+                                    if (transactions.Where(x=> x.CounterDatetime >= DateTime.Now.AddSeconds(-tr.OcuuranceInterval)).All(s=> Math.Round(s.CounterValue, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr.ActionId);

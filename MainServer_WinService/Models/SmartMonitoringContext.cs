@@ -25,6 +25,7 @@ namespace MainServer_WinService.Models
         public virtual DbSet<MontrMonitorGroupsCounters> MontrMonitorGroupsCounters { get; set; }
         public virtual DbSet<MontrMonitorRules> MontrMonitorRules { get; set; }
         public virtual DbSet<MontrMonitorTransactions> MontrMonitorTransactions { get; set; }
+        public virtual DbSet<RuleEvents> RuleEvents { get; set; }
         public virtual DbSet<SchdSchedulersData> SchdSchedulersData { get; set; }
         public virtual DbSet<ServerGroups> ServerGroups { get; set; }
         public virtual DbSet<ServerUsers> ServerUsers { get; set; }
@@ -290,7 +291,9 @@ namespace MainServer_WinService.Models
                     .HasColumnName("rule_id")
                     .ValueGeneratedNever();
 
-                entity.Property(e => e.ActionId).HasColumnName("action_id");
+                entity.Property(e => e.ActionId)
+                    .HasColumnName("action_id")
+                    .HasComment("0 => Notification, 1 => ");
 
                 entity.Property(e => e.CounterId)
                     .IsRequired()
@@ -312,9 +315,7 @@ namespace MainServer_WinService.Models
                     .HasColumnName("instance_id")
                     .HasMaxLength(150);
 
-                entity.Property(e => e.IsActionRaised).HasColumnName("is_action_raised");
-
-                entity.Property(e => e.IsAlarmRaised).HasColumnName("is_alarm_raised");
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
 
                 entity.Property(e => e.LastOccuranceDatetime)
                     .HasColumnName("last_occurance_datetime")
@@ -378,6 +379,63 @@ namespace MainServer_WinService.Models
                     .HasColumnName("machine_id")
                     .HasMaxLength(20)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<RuleEvents>(entity =>
+            {
+                entity.ToTable("rule_events");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AckDateTime)
+                    .HasColumnName("ack_date_time")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.AckUser).HasColumnName("ack_user");
+
+                entity.Property(e => e.CounterId)
+                    .IsRequired()
+                    .HasColumnName("counter_id")
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InstanceId)
+                    .HasColumnName("instance_id")
+                    .HasMaxLength(150);
+
+                entity.Property(e => e.IsAck).HasColumnName("is_ack");
+
+                entity.Property(e => e.MachineId)
+                    .IsRequired()
+                    .HasColumnName("machine_id")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OcuuranceInterval).HasColumnName("ocuurance_interval");
+
+                entity.Property(e => e.RaisedActionFireDate)
+                    .HasColumnName("raised_action_fire_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.RaisedActionId).HasColumnName("raised_action_id");
+
+                entity.Property(e => e.RuleField)
+                    .IsRequired()
+                    .HasColumnName("rule_field")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RuleId).HasColumnName("rule_id");
+
+                entity.Property(e => e.RuleMathSymbol)
+                    .IsRequired()
+                    .HasColumnName("rule_math_symbol")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RuleOcuuranceType).HasColumnName("rule_ocuurance_type");
+
+                entity.Property(e => e.RuleValue).HasColumnName("rule_value");
             });
 
             modelBuilder.Entity<SchdSchedulersData>(entity =>

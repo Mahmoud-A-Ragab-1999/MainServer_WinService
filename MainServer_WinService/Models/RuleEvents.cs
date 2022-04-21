@@ -7,10 +7,9 @@ using System.Collections.Generic;
 
 namespace MainServer_WinService.Models
 {
-    public partial class MontrMonitorRules
+    public partial class RuleEvents
     {
-        public int RuleId { get; set; }
-        public string MachineId { get; set; }
+        public int Id { get; set; }
         public string CounterId { get; set; }
         public string InstanceId { get; set; }
         public string RuleField { get; set; }
@@ -18,12 +17,12 @@ namespace MainServer_WinService.Models
         public double RuleValue { get; set; }
         public byte RuleOcuuranceType { get; set; }
         public int OcuuranceInterval { get; set; }
-        public string DisplayLevel { get; set; }
-        public int ActionId { get; set; }
-        public DateTime? FirstOccuranceDatetime { get; set; }
-        public DateTime? LastOccuranceDatetime { get; set; }
-        public int? OccuranceCount { get; set; }
-        public int? OccuranceInterval { get; set; }
-        public bool? IsActive { get; set; }
+        public string MachineId { get; set; }
+        public int RaisedActionId { get; set; }
+        public DateTime RaisedActionFireDate { get; set; }
+        public int RuleId { get; set; }
+        public bool? IsAck { get; set; }
+        public DateTime? AckDateTime { get; set; }
+        public int? AckUser { get; set; }
     }
 }

@@ -125,6 +125,7 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
@@ -162,12 +163,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmailUtilities.cs" />
     <Compile Include="Models\MontrMachinesList.cs" />
     <Compile Include="Models\MontrMonitorCounters.cs" />
     <Compile Include="Models\MontrMonitorGroups.cs" />
     <Compile Include="Models\MontrMonitorGroupsCounters.cs" />
     <Compile Include="Models\MontrMonitorRules.cs" />
     <Compile Include="Models\MontrMonitorTransactions.cs" />
+    <Compile Include="Models\RuleEvents.cs" />
     <Compile Include="Models\SchdSchedulersData.cs" />
     <Compile Include="Models\ServerGroups.cs" />
     <Compile Include="Models\ServersData.cs" />

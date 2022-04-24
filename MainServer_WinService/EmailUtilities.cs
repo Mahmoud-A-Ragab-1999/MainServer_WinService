@@ -120,7 +120,7 @@ namespace Utilities
         }
 
 
-        public static bool SendEmail(string userEmail, string userName, string subject, string body, List<KeyValuePair<string, string>> attachmentsPaths, List<string> ccEmails, out string error)
+        public static bool SendEmail(string userEmail, string userName, string subject, string body, out string error)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace Utilities
                     if (string.IsNullOrEmpty(userName) || string.IsNullOrWhiteSpace(userName))
                         userName = null;
 
-                    string saloonyEmail = ConfigurationManager.AppSettings["SaloonyEmail"];                    
+                    string saloonyEmail = ConfigurationManager.AppSettings["SenderEmail"];                    
                     string password = ConfigurationManager.AppSettings["EmailCredentialPassword"];
                     string smtpName = ConfigurationManager.AppSettings["SMTP"];
                     int sMTPPort = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]);
@@ -150,14 +150,14 @@ namespace Utilities
                         mailMSG.BodyEncoding = Encoding.UTF8;
                         mailMSG.SubjectEncoding = Encoding.UTF8;
 
-                        if (ccEmails != null && ccEmails.Any())
-                        {
-                            foreach (string email in ccEmails)
-                            {
-                                MailAddress cc = new MailAddress(email);
-                                mailMSG.CC.Add(cc);
-                            }
-                        }                       
+                        //if (ccEmails != null && ccEmails.Any())
+                        //{
+                        //    foreach (string email in ccEmails)
+                        //    {
+                        //        MailAddress cc = new MailAddress(email);
+                        //        mailMSG.CC.Add(cc);
+                        //    }
+                        //}                       
 
                         using (SmtpClient smtp = new SmtpClient())
                         {

@@ -10,6 +10,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Timers;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace MainServer_WinService
 {
@@ -95,7 +96,7 @@ namespace MainServer_WinService
                                     if (transactions.OrderByDescending(t => t.CounterDatetime).Take(tr.OcuuranceInterval).All(x => Math.Round(x.CounterValue, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -105,7 +106,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -122,7 +123,7 @@ namespace MainServer_WinService
                                     if (transactions.OrderByDescending(t => t.CounterDatetime).Take(tr.OcuuranceInterval).All(x => Math.Round(x.CounterValue, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -132,7 +133,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -149,7 +150,7 @@ namespace MainServer_WinService
                                     if (transactions.OrderByDescending(t => t.CounterDatetime).Take(tr.OcuuranceInterval).All(x => Math.Round(x.CounterValue, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -159,7 +160,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -176,7 +177,7 @@ namespace MainServer_WinService
                                     if (transactions.OrderByDescending(t => t.CounterDatetime).Take(tr.OcuuranceInterval).All(x => Math.Round(x.CounterValue, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -184,10 +185,10 @@ namespace MainServer_WinService
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
                                     //if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OcuuranceInterval))
-                                    if (transactions.Where(x=> x.CounterDatetime >= DateTime.Now.AddSeconds(-tr.OcuuranceInterval)).All(s=> Math.Round(s.CounterValue, 2) < Math.Round(tr.RuleValue, 2)))
+                                    if (transactions.Where(x=> x.CounterDatetime >= transactions.LastOrDefault().CounterDatetime.AddSeconds(-tr.OcuuranceInterval)).All(s=> Math.Round(s.CounterValue, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -208,7 +209,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Average, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -218,7 +219,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -235,7 +236,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Average, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -245,7 +246,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -262,7 +263,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Average, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -272,7 +273,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -289,7 +290,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Average, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -299,7 +300,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -320,7 +321,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Minimum, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -330,7 +331,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -347,7 +348,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Minimum, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -357,7 +358,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -374,7 +375,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Minimum, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -384,7 +385,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -401,7 +402,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Minimum, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -411,7 +412,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -432,7 +433,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Maximum, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -442,7 +443,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -459,7 +460,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Maximum, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -469,7 +470,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -486,7 +487,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Maximum, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -496,7 +497,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -513,7 +514,7 @@ namespace MainServer_WinService
                                     if (history.OrderByDescending(t => t.CreationDate).Take(tr.OcuuranceInterval).All(x => Math.Round((double)x.Maximum, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceCount = tr.OccuranceCount == null ? 1 : tr.OccuranceCount + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -523,7 +524,7 @@ namespace MainServer_WinService
                                     if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
-                                        SeedRuleAction(tr.ActionId);
+                                        SeedRuleAction(tr);
                                         SeedRuleEvent(tr);
                                         ResetRule(tr);
                                     }
@@ -583,17 +584,24 @@ namespace MainServer_WinService
             context.SaveChanges();
         }
 
-        private void SeedRuleAction(int actionId)
+        private void SeedRuleAction(MontrMonitorRules monitorRule)
         {
-            if (actionId == 0)
+            if (monitorRule.ActionId == 0)
             {
 
             }
-            else if (actionId == 1)
+            else if (monitorRule.ActionId == 1)
             {
-
+                string error;
+                var userIds = context.ServerUsers.Where(s => s.MachineId == monitorRule.MachineId).Select(s => s.UserId).ToList();
+                foreach (var id in userIds)
+                {
+                    var user = context.Users.FirstOrDefault(u => u.Id == id);
+                    string body = $"The {monitorRule.RuleField} Value of the {monitorRule.CounterId} counter was {monitorRule.RuleMathSymbol} {monitorRule.RuleValue} at {monitorRule.LastOccuranceDatetime}";
+                    EmailUtilities.SendEmail(user.Email, user.Name, $"{monitorRule.CounterId} Alert.", body, out error);
+                }                                               
             }
-            else if (actionId == 2)
+            else if (monitorRule.ActionId == 2)
             {
             }
         }

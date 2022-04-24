@@ -103,7 +103,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (transactions.Where(x => x.CounterDatetime >= transactions.LastOrDefault().CounterDatetime.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round(s.CounterValue, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -130,7 +130,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (transactions.Where(x => x.CounterDatetime >= transactions.LastOrDefault().CounterDatetime.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round(s.CounterValue, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -157,7 +157,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (transactions.Where(x => x.CounterDatetime >= transactions.LastOrDefault().CounterDatetime.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round(s.CounterValue, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -216,7 +216,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Average, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -243,7 +243,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Average, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -270,7 +270,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Average, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -297,7 +297,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Average, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -328,7 +328,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Minimum, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -355,7 +355,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Minimum, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -382,7 +382,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Minimum, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -409,7 +409,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Minimum, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -440,7 +440,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Maximum, 2) == Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -467,7 +467,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Maximum, 2) != Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -494,7 +494,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Maximum, 2) > Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);
@@ -521,7 +521,7 @@ namespace MainServer_WinService
                                 }
                                 else if (tr.RuleOcuuranceType == 2)
                                 {
-                                    if (tr.LastOccuranceDatetime.HasValue && tr.OccuranceInterval.HasValue && DateTime.Now == tr.LastOccuranceDatetime.Value.AddSeconds(tr.OccuranceInterval.Value))
+                                    if (history.Where(x => x.CreationDate >= history.LastOrDefault().CreationDate.Value.AddSeconds(-tr.OcuuranceInterval)).All(s => Math.Round((double)s.Maximum, 2) < Math.Round(tr.RuleValue, 2)))
                                     {
                                         tr.OccuranceInterval = tr.OccuranceInterval == null ? 1 : tr.OccuranceInterval.Value + 1;
                                         SeedRuleAction(tr);

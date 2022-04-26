@@ -34,6 +34,7 @@ namespace MainServer_WinService.Models
         public virtual DbSet<SetCounters> SetCounters { get; set; }
         public virtual DbSet<SetCountersCategories> SetCountersCategories { get; set; }
         public virtual DbSet<SetSerialno> SetSerialno { get; set; }
+        public virtual DbSet<SysEmails> SysEmails { get; set; }
         public virtual DbSet<SysSettings> SysSettings { get; set; }
         public virtual DbSet<TransactionCalculated> TransactionCalculated { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -44,7 +45,7 @@ namespace MainServer_WinService.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-QQD7L2O;Database=SmartMonitoring;Persist Security Info=True;User ID =sa; Password=123;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-QQD7L2O;Database=SmartMonitoring;Trusted_Connection=True;User ID=sa;password=123");
             }
         }
 
@@ -798,6 +799,35 @@ namespace MainServer_WinService.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.SerialnoValue).HasColumnName("serialno_value");
+            });
+
+            modelBuilder.Entity<SysEmails>(entity =>
+            {
+                entity.HasKey(e => e.EmailId);
+
+                entity.ToTable("sys_emails");
+
+                entity.Property(e => e.EmailId).HasColumnName("email_id");
+
+                entity.Property(e => e.EmailBody)
+                    .IsRequired()
+                    .HasColumnName("email_body")
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.EmailSenderSmtp)
+                    .IsRequired()
+                    .HasColumnName("email_sender_smtp")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.EmailSubject)
+                    .IsRequired()
+                    .HasColumnName("email_subject")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.EmailTo)
+                    .IsRequired()
+                    .HasColumnName("email_to")
+                    .HasMaxLength(500);
             });
 
             modelBuilder.Entity<SysSettings>(entity =>

@@ -20,10 +20,10 @@ namespace MainServer_WinService.Models
         public int OcuuranceInterval { get; set; }
         public string DisplayLevel { get; set; }
         public int ActionId { get; set; }
+        public bool? IsActive { get; set; }
         public DateTime? FirstOccuranceDatetime { get; set; }
         public DateTime? LastOccuranceDatetime { get; set; }
         public int? OccuranceCount { get; set; }
         public int? OccuranceInterval { get; set; }
-        public bool? IsActive { get; set; }
     }
 }

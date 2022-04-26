@@ -18,9 +18,9 @@ namespace MainServer_WinService.Models
         public byte RuleOcuuranceType { get; set; }
         public int OcuuranceInterval { get; set; }
         public string MachineId { get; set; }
+        public int RuleId { get; set; }
         public int RaisedActionId { get; set; }
         public DateTime RaisedActionFireDate { get; set; }
-        public int RuleId { get; set; }
         public bool? IsAck { get; set; }
         public DateTime? AckDateTime { get; set; }
         public int? AckUser { get; set; }
